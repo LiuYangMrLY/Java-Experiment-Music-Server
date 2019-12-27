@@ -1,5 +1,7 @@
 package ouc.cs.course.java.musicserver.util.db;
 
+import ouc.cs.course.java.musicserver.dao.impl.UserDaoImpl;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -32,6 +34,9 @@ public class DatabaseUtil {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+
+		// 数据库表创建
+		UserDaoImpl.makePreparations();
 	}
 
 	/**

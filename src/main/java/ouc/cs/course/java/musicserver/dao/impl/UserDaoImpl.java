@@ -14,36 +14,43 @@ import ouc.cs.course.java.musicserver.util.db.DatabaseUtil;
 
 public class UserDaoImpl implements UserDao {
 
+	/**
+	 *
+	 * @param user
+	 * @return
+	 * @throws SQLException
+	 */
 	@Override
 	public int insert(User user) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		int autoIncKey = -1;
-		String sql = "insert into user (name, passmd5value) values (?, ?)";
-		
+		int autoKey = -1;
+
+		String INSERT_USER_INTO_USER_TABLE_SQL = "INSERT INTO user(name, passmd5value) VALUES (?, ?)";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
 		try {
-			conn = DatabaseUtil.getConnection();
-			ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			connection = DatabaseUtil.getConnection();
+			preparedStatement = connection.prepareStatement(INSERT_USER_INTO_USER_TABLE_SQL, Statement.RETURN_GENERATED_KEYS);
 
-			ps.setString(1, user.getName());
-			ps.setString(2, user.getPassMd5value());
+			preparedStatement.setString(1, user.getName());
+			preparedStatement.setString(1, user.getPassMd5value());
 
-			ps.executeUpdate();
+			preparedStatement.execute();
 
-			ResultSet rs = ps.getGeneratedKeys();
-			if (rs.next()) {
-				autoIncKey = rs.getInt(1);
-			} else {
+			resultSet = preparedStatement.getGeneratedKeys();
+			if (resultSet.next()) {
+				autoKey = resultSet.getInt(1);
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw new SQLException("add data failed.");
+			System.out.println("insert user failed.");
 		} finally {
-			DatabaseUtil.close(null, ps, conn);
+			DatabaseUtil.close(resultSet, preparedStatement, connection);
 		}
-		return autoIncKey;
-	}
 
+		return autoKey;
+	}
 
 	@Override
 	public List<User> findAll() throws SQLException {
@@ -74,6 +81,8 @@ public class UserDaoImpl implements UserDao {
 	}
 
 
+
+
 	@Override
 	public User findById(int id) throws SQLException {
 		// TODO Auto-generated method stub
@@ -92,5 +101,27 @@ public class UserDaoImpl implements UserDao {
 	public User findOne(String name, String passMd5Value) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * 数据库创建 user 表
+	 */
+	public static void makePreparations() {
+		String CREAT_USER_TABLE_SQL = "CREATE TABLE IF NOT EXISTS user(" +
+				"id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT," +
+				"name CHAR(255)," +
+				"passmd5value CHAR(255)" +
+				");";
+
+		try {
+			Connection connection = DatabaseUtil.getConnection();
+
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(CREAT_USER_TABLE_SQL);
+
+			DatabaseUtil.close(null, statement, connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
