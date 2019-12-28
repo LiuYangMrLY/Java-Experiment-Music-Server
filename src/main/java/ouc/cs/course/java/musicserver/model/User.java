@@ -15,6 +15,17 @@ public class User {
 
 	}
 
+	public User(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	public User(int id, String name, String passMd5value) {
+		this.id = id;
+		this.name = name;
+		this.passMd5value = passMd5value;
+	}
+
 	public int getId() {
 		return id;
 	}

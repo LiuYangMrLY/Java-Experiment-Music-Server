@@ -41,34 +41,38 @@ public class DatabaseUtil {
 
 	/**
 	 * 获取数据库连接的方法
-	 * 
 	 * @return
 	 */
 	public static Connection getConnection() {
-		Connection conn = null;
+		Connection connection = null;
+
 		try {
-			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Get Database Connection failed.");
 		}
 
-		return conn;
+		return connection;
 	}
 
 	/**
 	 * 关闭数据库连接
-	 * 
+	 * @param resultSet
+	 * @param statement
+	 * @param connection
 	 */
-	public static void close(ResultSet rs, Statement stat, Connection conn) {
-		
+	public static void close(ResultSet resultSet, Statement statement, Connection connection) {
 		try {
-			if (rs != null)
-				rs.close();
-			if (stat != null)
-				stat.close();
-			if (conn != null)
-				conn.close();
+			if (resultSet != null) {
+				resultSet.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

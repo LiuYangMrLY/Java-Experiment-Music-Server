@@ -1,21 +1,18 @@
 package ouc.cs.course.java.musicserver.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 
-import ouc.cs.course.java.musicserver.model.Music;
-import ouc.cs.course.java.musicserver.model.MusicSheet;
 import ouc.cs.course.java.musicserver.model.User;
 
 public interface UserDao {
 
-	public int insert(User user) throws SQLException;
+	int insert(User user);
 
-	public User findById(int id) throws SQLException;
+	User findById(int id);
 	
-	public User findByName(String name) throws SQLException;
+	User findByName(String name);
 	
-	public User findOne(String name, String passMd5Value) throws SQLException;
+	User findOne(String name, String passMd5Value);
 
-	public List<User> findAll() throws SQLException;
+	List<User> findAll();
 }
