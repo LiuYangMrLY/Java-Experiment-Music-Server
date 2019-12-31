@@ -1,5 +1,8 @@
 package ouc.cs.course.java.musicserver.servlet;
 
+import ouc.cs.course.java.musicserver.service.UserService;
+import ouc.cs.course.java.musicserver.util.md5.MD5Util;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,13 +20,11 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	/**
-	 * 要求：如果用户直接请求login，如果在Session对象中有属性username等于admin，则重定向到index.html<br>
-	 * 否则重定向到login.html
+	 * 已登录重定向到 index.html
+	 * 未登录获取登录页面 login.html
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		// Code goes here.
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
 		if (username != null) {
@@ -34,21 +35,23 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	/**
-	 * 请同学编写代码完成对login.html表单提交数据的处理<br>
-	 * 要求：验证用户名是否为admin，密码是否为admin，如果通过验证<br>
-	 * 则将username属性保存到session对象，然后重定向到index.html
+	 * 登录接口
+	 * form 表单 POST
+	 * 验证用户的用户名和密码
+	 * 合法 重定向到 index
+	 * 非法 驻留在 login.html
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Code goes here.
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		if ("admin".equals(username) && "admin".equals(password)) {
+
+		UserService userService = new UserService();
+		if (userService.getOne(username, MD5Util.MD5Encode(password, "UTF-8")) != null) {
 			request.getSession().setAttribute("username", username);
 			response.sendRedirect("index/index.jsp");
 		} else {
 			response.sendRedirect("user/login.html");
 		}
 	}
-
 }

@@ -9,10 +9,9 @@ public class User {
 	public User() {
 	}
 
-	public User(String passMd5value, String name) {
-		this.setPassMd5value(passMd5value);
+	public User(String name, String passMd5value) {
 		this.name = name;
-
+		this.passMd5value = passMd5value;
 	}
 
 	public User(int id, String name) {
