@@ -1,49 +1,41 @@
 package ouc.cs.course.java.musicserver.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-import ouc.cs.course.java.musicserver.dao.MusicDao;
-import ouc.cs.course.java.musicserver.dao.MusicSheetDao;
 import ouc.cs.course.java.musicserver.dao.MusicSheetToMusicDao;
-import ouc.cs.course.java.musicserver.model.Music;
-import ouc.cs.course.java.musicserver.model.MusicSheet;
 import ouc.cs.course.java.musicserver.model.MusicSheetToMusic;
 import ouc.cs.course.java.musicserver.util.db.DatabaseUtil;
 
-public class MusicSheetToMusicDaoImpl implements MusicSheetToMusicDao {
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
+public class MusicSheetToMusicDaoImpl implements MusicSheetToMusicDao {
 	@Override
-	public int insert(MusicSheetToMusic mstm) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
+	public int insert(MusicSheetToMusic musicSheetToMusic) throws SQLException {
 		int autoIncKey = -1;
-		String sql = "insert into musicsheet_music(musicsheetId, musicId)values(?, ?)";
+
+		String sql = "INSERT INTO musicsheet_music(musicsheetId, musicId) VALUES (?, ?)";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 
 		try {
-			conn = DatabaseUtil.getConnection();
-			ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			connection = DatabaseUtil.getConnection();
+			preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-			ps.setInt(1, mstm.getMusicSheetId());
-			ps.setInt(2, mstm.getMusicId());
+			preparedStatement.setInt(1, musicSheetToMusic.getMusicSheetId());
+			preparedStatement.setInt(2, musicSheetToMusic.getMusicId());
 
-			ps.executeUpdate();
+			preparedStatement.executeUpdate();
 
-			ResultSet rs = ps.getGeneratedKeys();
-			if (rs.next()) {
-				autoIncKey = rs.getInt(1);
-			} else {
+			resultSet = preparedStatement.getGeneratedKeys();
+			if (resultSet.next()) {
+				autoIncKey = resultSet.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException("add data failed.");
 		} finally {
-			DatabaseUtil.close(null, ps, conn);
+			DatabaseUtil.close(resultSet, preparedStatement, connection);
 		}
 
 		return autoIncKey;
@@ -51,48 +43,52 @@ public class MusicSheetToMusicDaoImpl implements MusicSheetToMusicDao {
 
 	@Override
 	public void delete(int id) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		String sql = "delete from musicsheet_music where id=?";
+		String sql = "DELETE FROM musicsheet_music WHERE id=?";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
 		try {
-			conn = DatabaseUtil.getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, id);
-			ps.executeUpdate();
+			connection = DatabaseUtil.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+
+			preparedStatement.setInt(1, id);
+
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException("delete data failed.");
 		} finally {
-			DatabaseUtil.close(null, ps, conn);
+			DatabaseUtil.close(null, preparedStatement, connection);
 		}
 	}
 
 	@Override
 	public List<Integer> findByMusicSheetId(int musicsheetId) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		List<Integer> musicIdList = new ArrayList<Integer>();
-		
-		String sql = "select musicId from musicsheet_music where musicsheetId=?";
-		
+		List<Integer> musicIdList = new ArrayList<>();
+
+		String sql = "SELECT musicId FROM musicsheet_music WHERE musicsheetId=?";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
 		try {
-			conn = DatabaseUtil.getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, musicsheetId);
-			rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				musicIdList.add(rs.getInt(1));
+			connection = DatabaseUtil.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+
+			preparedStatement.setInt(1, musicsheetId);
+
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				musicIdList.add(resultSet.getInt(1));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException("query by musicsheetId failed.");
 		} finally {
-			DatabaseUtil.close(rs, ps, conn);
+			DatabaseUtil.close(resultSet, preparedStatement, connection);
 		}
-		return musicIdList;
 
+		return musicIdList;
 	}
 
 	/**

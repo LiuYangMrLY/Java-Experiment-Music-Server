@@ -22,7 +22,7 @@ public class UserDaoImpl implements UserDao {
 	public int insert(User user) {
 		int autoKey = -1;
 
-		if (user.getName() == null || user.getPassMd5value() == null) {
+		if (user == null || user.getName() == null || user.getPassMd5value() == null) {
 			return autoKey;
 		}
 
