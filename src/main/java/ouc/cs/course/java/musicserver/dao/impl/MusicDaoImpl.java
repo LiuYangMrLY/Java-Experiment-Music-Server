@@ -188,4 +188,28 @@ public class MusicDaoImpl implements MusicDao {
 		return musicList;
 
 	}
+
+	/**
+	 * 准备阶段
+	 * 数据库创建 music 表
+	 */
+	public static void makePreparations() {
+		String CREATE_MUSIC_TABLE_SQL = "CREATE TABLE IF NOT EXISTS music(" +
+				"id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT," +
+				"md5value CHAR(255) NOT NULL," +
+				"name CHAR(255)," +
+				"singer CHAR(255)" +
+				")";
+
+		try {
+			Connection connection = DatabaseUtil.getConnection();
+
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(CREATE_MUSIC_TABLE_SQL);
+
+			DatabaseUtil.close(null, statement, connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

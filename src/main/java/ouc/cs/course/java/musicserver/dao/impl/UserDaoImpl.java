@@ -212,7 +212,7 @@ public class UserDaoImpl implements UserDao {
 	 * 数据库创建 user 表
 	 */
 	public static void makePreparations() {
-		String CREAT_USER_TABLE_SQL = "CREATE TABLE IF NOT EXISTS user(" +
+		String CREATE_USER_TABLE_SQL = "CREATE TABLE IF NOT EXISTS user(" +
 				"id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT," +
 				"name CHAR(255)," +
 				"passmd5value CHAR(255)" +
@@ -222,7 +222,7 @@ public class UserDaoImpl implements UserDao {
 			Connection connection = DatabaseUtil.getConnection();
 
 			Statement statement = connection.createStatement();
-			statement.executeUpdate(CREAT_USER_TABLE_SQL);
+			statement.executeUpdate(CREATE_USER_TABLE_SQL);
 
 			DatabaseUtil.close(null, statement, connection);
 		} catch (SQLException e) {

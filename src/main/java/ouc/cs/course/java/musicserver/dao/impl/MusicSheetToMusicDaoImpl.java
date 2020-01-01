@@ -94,4 +94,27 @@ public class MusicSheetToMusicDaoImpl implements MusicSheetToMusicDao {
 		return musicIdList;
 
 	}
+
+	/**
+	 * 准备阶段
+	 * 数据库创建 musicsheet_music 表
+	 */
+	public static void makePreparations() {
+		String CREATE_MUSIC_SHEET_MUSIC_TABLE_SQL = "CREATE TABLE IF NOT EXISTS musicsheet_music(" +
+				"id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT," +
+				"musicsheetId INT UNSIGNED NOT NULL," +
+				"musicId INT UNSIGNED NOT NULL" +
+				")";
+
+		try {
+			Connection connection = DatabaseUtil.getConnection();
+
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(CREATE_MUSIC_SHEET_MUSIC_TABLE_SQL);
+
+			DatabaseUtil.close(null, statement, connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

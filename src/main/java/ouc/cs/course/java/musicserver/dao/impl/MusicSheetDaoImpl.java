@@ -217,7 +217,7 @@ public class MusicSheetDaoImpl implements MusicSheetDao {
 		MusicSheet ms = null;
 		List<MusicSheet> musicSheetList = new ArrayList<MusicSheet>();
 		String sql = "select id, uuid, name, creatorId, creator, dateCreated, picture from musicsheet order by id desc limit " + num;
-		
+
 		try {
 			conn = DatabaseUtil.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -240,5 +240,32 @@ public class MusicSheetDaoImpl implements MusicSheetDao {
 			DatabaseUtil.close(rs, ps, conn);
 		}
 		return musicSheetList;
+	}
+
+	/**
+	 * 准备阶段
+	 * 数据库创建 musicsheet 表
+	 */
+	public static void makePreparations() {
+		String CREATE_MUSIC_SHEET_TABLE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS musicsheet(" +
+				"id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT," +
+				"uuid CHAR(255) NOT NULL," +
+				"name CHAR(255)," +
+				"creatorId CHAR(255)," +
+				"creator CHAR(255)," +
+				"dateCreated CHAR(255)," +
+				"picture CHAR(255)" +
+				");";
+
+		try {
+			Connection connection = DatabaseUtil.getConnection();
+
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(CREATE_MUSIC_SHEET_TABLE_TABLE_SQL);
+
+			DatabaseUtil.close(null, statement, connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

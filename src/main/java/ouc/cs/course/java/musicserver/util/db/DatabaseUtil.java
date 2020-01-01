@@ -1,5 +1,8 @@
 package ouc.cs.course.java.musicserver.util.db;
 
+import ouc.cs.course.java.musicserver.dao.impl.MusicDaoImpl;
+import ouc.cs.course.java.musicserver.dao.impl.MusicSheetDaoImpl;
+import ouc.cs.course.java.musicserver.dao.impl.MusicSheetToMusicDaoImpl;
 import ouc.cs.course.java.musicserver.dao.impl.UserDaoImpl;
 
 import java.sql.Connection;
@@ -37,6 +40,9 @@ public class DatabaseUtil {
 
 		// 数据库表创建
 		UserDaoImpl.makePreparations();
+		MusicSheetDaoImpl.makePreparations();
+		MusicDaoImpl.makePreparations();
+		MusicSheetToMusicDaoImpl.makePreparations();
 	}
 
 	/**
