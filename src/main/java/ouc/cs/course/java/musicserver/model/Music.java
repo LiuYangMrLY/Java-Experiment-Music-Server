@@ -7,20 +7,17 @@ public class Music {
 	private String singer;
 	private String md5value;
 
-	public Music() {
-	}
+	public Music() {}
 
 	public Music(String md5value, String name) {
 		this.md5value = md5value;
 		this.name = name;
-
 	}
 
 	public Music(String md5value, String name, String singer) {
 		this.md5value = md5value;
 		this.name = name;
 		this.singer = singer;
-
 	}
 
 	public int getId() {

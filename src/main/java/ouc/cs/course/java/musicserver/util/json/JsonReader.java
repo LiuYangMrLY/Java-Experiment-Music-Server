@@ -10,16 +10,17 @@ import net.sf.json.JSONObject;
 
 public class JsonReader {
 	public static JSONObject receivePost(HttpServletRequest request) throws IOException, UnsupportedEncodingException {
-
 		// 读取请求内容
-		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8));
-		String line = null;
-		StringBuilder sb = new StringBuilder();
-		while ((line = br.readLine()) != null) {
-			sb.append(line);
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8));
+
+		String line;
+		StringBuilder stringBuilder = new StringBuilder();
+		while ((line = bufferedReader.readLine()) != null) {
+			stringBuilder.append(line);
 		}
+
 		// 将json字符串转换为json对象
-		JSONObject json = JSONObject.fromObject(sb.toString());
+		JSONObject json = JSONObject.fromObject(stringBuilder.toString());
 		return json;
 	}
 }

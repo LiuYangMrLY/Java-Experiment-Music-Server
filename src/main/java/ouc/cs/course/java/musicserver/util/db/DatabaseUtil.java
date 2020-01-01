@@ -1,8 +1,5 @@
 package ouc.cs.course.java.musicserver.util.db;
 
-import ouc.cs.course.java.musicserver.dao.impl.MusicDaoImpl;
-import ouc.cs.course.java.musicserver.dao.impl.MusicSheetDaoImpl;
-import ouc.cs.course.java.musicserver.dao.impl.MusicSheetToMusicDaoImpl;
 import ouc.cs.course.java.musicserver.dao.impl.UserDaoImpl;
 
 import java.sql.Connection;
@@ -21,16 +18,16 @@ public class DatabaseUtil {
 	public static String USERNAME;
 	public static String PASSWORD;
 	public static String DRIVER;
-	private static ResourceBundle rb = ResourceBundle.getBundle("ouc.cs.course.java.musicserver.util.db.db-config");
+	private static ResourceBundle resourceBundle = ResourceBundle.getBundle("ouc.cs.course.java.musicserver.util.db.db-config");
 
 	private DatabaseUtil() {
 	}
 
 	static {
-		URL = rb.getString("jdbc.url");
-		USERNAME = rb.getString("jdbc.username");
-		PASSWORD = rb.getString("jdbc.password");
-		DRIVER = rb.getString("jdbc.driver");
+		URL = resourceBundle.getString("jdbc.url");
+		USERNAME = resourceBundle.getString("jdbc.username");
+		PASSWORD = resourceBundle.getString("jdbc.password");
+		DRIVER = resourceBundle.getString("jdbc.driver");
 
 		try {
 			Class.forName(DRIVER);
@@ -40,9 +37,6 @@ public class DatabaseUtil {
 
 		// 数据库表创建
 		UserDaoImpl.makePreparations();
-		MusicSheetDaoImpl.makePreparations();
-		MusicDaoImpl.makePreparations();
-		MusicSheetToMusicDaoImpl.makePreparations();
 	}
 
 	/**
