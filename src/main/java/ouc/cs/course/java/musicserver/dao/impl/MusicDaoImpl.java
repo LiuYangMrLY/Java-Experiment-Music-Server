@@ -1,191 +1,234 @@
 package ouc.cs.course.java.musicserver.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import ouc.cs.course.java.musicserver.dao.MusicDao;
+import ouc.cs.course.java.musicserver.model.Music;
+import ouc.cs.course.java.musicserver.util.db.DatabaseUtil;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import ouc.cs.course.java.musicserver.dao.MusicDao;
-import ouc.cs.course.java.musicserver.dao.MusicSheetDao;
-import ouc.cs.course.java.musicserver.model.Music;
-import ouc.cs.course.java.musicserver.model.MusicSheet;
-import ouc.cs.course.java.musicserver.util.db.DatabaseUtil;
-
 public class MusicDaoImpl implements MusicDao {
-
 	@Override
-	public int insert(Music mu) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
+	public int insert(Music music) throws SQLException {
 		int autoIncKey = -1;
-		String sql = "insert into music(md5value, name, singer)values(?, ?, ?)";
+
+		if (music == null) {
+			return autoIncKey;
+		}
+
+		String sql = "INSERT INTO music(md5value, name, singer) VALUES (?, ?, ?)";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
 		try {
-			conn = DatabaseUtil.getConnection();
-			ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			connection = DatabaseUtil.getConnection();
+			preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-			ps.setString(1, mu.getMd5value());
-			ps.setString(2, mu.getName());
-			ps.setString(3, mu.getSinger());
+			preparedStatement.setString(1, music.getMd5value());
+			preparedStatement.setString(2, music.getName());
+			preparedStatement.setString(3, music.getSinger());
 
-			ps.executeUpdate();
+			preparedStatement.executeUpdate();
 
-			ResultSet rs = ps.getGeneratedKeys();
-			if (rs.next()) {
-				autoIncKey = rs.getInt(1);
-			} else {
+			resultSet = preparedStatement.getGeneratedKeys();
+			if (resultSet.next()) {
+				autoIncKey = resultSet.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException("add data failed.");
 		} finally {
-			DatabaseUtil.close(null, ps, conn);
+			DatabaseUtil.close(resultSet, preparedStatement, connection);
 		}
+
 		return autoIncKey;
 	}
 
 	@Override
-	public void update(Music mu) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		String sql = "update music set name=?, singer=? where md5value=?";
-		try {
-			conn = DatabaseUtil.getConnection();
-			ps = conn.prepareStatement(sql);
+	public void update(Music music) throws SQLException {
+		String sql = "UPDATE music SET name=?, singer=? WHERE md5value=?";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 
-			ps.setString(1, mu.getName());
-			ps.setString(2, mu.getSinger());
-			ps.setString(3, mu.getMd5value());
-			ps.executeUpdate();
+		try {
+			connection = DatabaseUtil.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+
+			preparedStatement.setString(1, music.getName());
+			preparedStatement.setString(2, music.getSinger());
+			preparedStatement.setString(3, music.getMd5value());
+
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException("update data failed.");
 		} finally {
-			DatabaseUtil.close(null, ps, conn);
+			DatabaseUtil.close(null, preparedStatement, connection);
 		}
-
 	}
 
 	@Override
 	public void delete(int id) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		String sql = "delete from music where id=?";
+		String sql = "DELETE FROM music WHERE id=?";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
 		try {
-			conn = DatabaseUtil.getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, id);
-			ps.executeUpdate();
+			connection = DatabaseUtil.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+
+			preparedStatement.setInt(1, id);
+
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException("delete data failed.");
 		} finally {
-			DatabaseUtil.close(null, ps, conn);
+			DatabaseUtil.close(null, preparedStatement, connection);
 		}
 	}
 
 	@Override
 	public void deleteByMd5value(String md5value) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		String sql = "delete from music where md5value=?";
+		String sql = "DELETE FROM music WHERE md5value=?";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
 		try {
-			conn = DatabaseUtil.getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, md5value);
-			ps.executeUpdate();
+			connection = DatabaseUtil.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+
+			preparedStatement.setString(1, md5value);
+
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException("delete data by md5value failed.");
 		} finally {
-			DatabaseUtil.close(null, ps, conn);
+			DatabaseUtil.close(null, preparedStatement, connection);
 		}
 	}
 
 	@Override
 	public Music findById(int id) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		Music mu = null;
-		String sql = "select md5value, name, singer from music where id=?";
+		Music music = null;
+
+		String sql = "SELECT md5value, name, singer FROM music WHERE id=?";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
 		try {
-			conn = DatabaseUtil.getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, id);
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				mu = new Music();
-				mu.setMd5value(rs.getString(1));
-				mu.setName(rs.getString(2));
-				mu.setSinger(rs.getString(3));
+			connection = DatabaseUtil.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+
+			preparedStatement.setInt(1, id);
+
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				music = new Music();
+				music.setMd5value(resultSet.getString(1));
+				music.setName(resultSet.getString(2));
+				music.setSinger(resultSet.getString(3));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException("query by id failed.");
 		} finally {
-			DatabaseUtil.close(rs, ps, conn);
+			DatabaseUtil.close(resultSet, preparedStatement, connection);
 		}
-		return mu;
+
+		return music;
 	}
 
 	@Override
 	public Music findByMd5value(String md5value) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		Music mu = null;
-		String sql = "select id, md5value, name, singer from music where md5value=?";
+		Music music = null;
+
+		String sql = "SELECT id, md5value, name, singer FROM music WHERE md5value=?";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
 		try {
-			conn = DatabaseUtil.getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, md5value);
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				mu = new Music();
-				mu.setId(rs.getInt(1));
-				mu.setMd5value(rs.getString(2));
-				mu.setName(rs.getString(3));
-				mu.setSinger(rs.getString(4));
+			connection = DatabaseUtil.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+
+			preparedStatement.setString(1, md5value);
+
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				music = new Music();
+				music.setId(resultSet.getInt(1));
+				music.setMd5value(resultSet.getString(2));
+				music.setName(resultSet.getString(3));
+				music.setSinger(resultSet.getString(4));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException("query by md5value failed.");
 		} finally {
-			DatabaseUtil.close(rs, ps, conn);
+			DatabaseUtil.close(resultSet, preparedStatement, connection);
 		}
-		return mu;
+
+		return music;
 	}
-	
+
 	@Override
 	public List<Music> findAll() throws SQLException {
+		Music music;
+		List<Music> musicList = new ArrayList<>();
 
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		Music mu = null;
-		List<Music> musicList = new ArrayList<Music>();
-		String sql = "select md5value, name, singer from music";
+		String sql = "SELECT md5value, name, singer FROM music";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
 		try {
-			conn = DatabaseUtil.getConnection();
-			ps = conn.prepareStatement(sql);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				mu = new Music();
-				mu.setMd5value(rs.getString(1));
-				mu.setName(rs.getString(2));
-				mu.setSinger(rs.getString(3));
-				musicList.add(mu);
+			connection = DatabaseUtil.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				music = new Music();
+				music.setMd5value(resultSet.getString(1));
+				music.setName(resultSet.getString(2));
+				music.setSinger(resultSet.getString(3));
+				musicList.add(music);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException("query all data failed.");
 		} finally {
-			DatabaseUtil.close(rs, ps, conn);
+			DatabaseUtil.close(resultSet, preparedStatement, connection);
 		}
-		return musicList;
 
+		return musicList;
+	}
+
+	/**
+	 * 准备阶段
+	 * 数据库创建 music 表
+	 */
+	public static void makePreparations() {
+		String CREATE_MUSIC_TABLE_SQL = "CREATE TABLE IF NOT EXISTS music(" +
+				"id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT," +
+				"md5value CHAR(255) NOT NULL," +
+				"name CHAR(255)," +
+				"singer CHAR(255)" +
+				")";
+
+		try {
+			Connection connection = DatabaseUtil.getConnection();
+
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(CREATE_MUSIC_TABLE_SQL);
+
+			DatabaseUtil.close(null, statement, connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

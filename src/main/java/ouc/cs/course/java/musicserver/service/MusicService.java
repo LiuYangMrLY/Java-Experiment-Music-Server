@@ -26,4 +26,7 @@ public class MusicService {
 		return mu.getName();
 	}
 
+	public Music getMusicByMd5Value(String md5value) throws SQLException {
+		return musicDao.findByMd5value(md5value);
+	}
 }

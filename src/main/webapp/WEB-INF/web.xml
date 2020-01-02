@@ -6,7 +6,6 @@
 
 	<display-name>Music Server</display-name>
 
-
 	<context-param>
 		<description>Music File Path on Server</description>
 		<param-name>musicFilePath</param-name>

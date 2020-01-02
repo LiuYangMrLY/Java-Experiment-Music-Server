@@ -10,6 +10,7 @@
       <root url="jar://$PROJECT_DIR$/lib/javax.persistence.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.jms.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.resource.jar!/" />
+      <root url="jar://E:/大二上/JAVA/commons-codec-1.13.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

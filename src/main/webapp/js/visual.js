@@ -454,6 +454,9 @@ function draw(data) {
       .insert("g", ".axis")
       .attr("class", "bar")
       .attr("transform", function (d) {
+        console.log(yScale(yValue(d)));
+        console.log(yValue(d));
+        console.log(d);
         return "translate(0," + yScale(yValue(d)) + ")";
       });
 

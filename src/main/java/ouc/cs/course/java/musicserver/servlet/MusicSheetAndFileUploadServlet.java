@@ -31,15 +31,13 @@ public class MusicSheetAndFileUploadServlet extends HttpServlet {
 	private static final Properties properties = new Properties(System.getProperties());
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		request.setCharacterEncoding("UTF-8");
 
-		ServletContext ctx = this.getServletContext();
-		String path = ctx.getInitParameter("musicFilePath");
+		ServletContext servletContext = this.getServletContext();
+		String path = servletContext.getInitParameter("musicFilePath");
+		System.out.println("File Storage on Server: " + path);
 
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-
-		System.out.println("File Storage on Server: " + path);
 
 		factory.setRepository(new File(path));
 		factory.setSizeThreshold(1024 * 1024);
@@ -47,20 +45,19 @@ public class MusicSheetAndFileUploadServlet extends HttpServlet {
 		// 试图解决Linux服务器写入MySQL数据库中文文件名乱码，未成功？
 		upload.setHeaderEncoding("UTF-8");
 
-		Map<String, String> musicSheetMetadata = new HashMap<String, String>();
-		Map<String, String> musicSheetFileData = new HashMap<String, String>();
+		Map<String, String> musicSheetMetadata = new HashMap<>();
+		Map<String, String> musicSheetFileData = new HashMap<>();
 
 		try {
-			List<FileItem> list = (List<FileItem>) upload.parseRequest(request);
-
-			for (FileItem item : list) {
+			List<FileItem> list = upload.parseRequest(request);
+			for (FileItem item: list) {
 				String name = item.getFieldName();
 
 				if (item.isFormField()) {
 					String value = item.getString("utf-8");
 					System.out.println("[FORM FIELD] " + name + ": " + value);
-					musicSheetMetadata.put(name, value);
 
+					musicSheetMetadata.put(name, value);
 				} else {
 					String value = item.getName();
 					int start = value.lastIndexOf(properties.getProperty("file.separator"));
@@ -93,8 +90,6 @@ public class MusicSheetAndFileUploadServlet extends HttpServlet {
 					out.close();
 				}
 			}
-		} catch (FileUploadException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -102,9 +97,7 @@ public class MusicSheetAndFileUploadServlet extends HttpServlet {
 		System.out.println("音乐单元数据：" + musicSheetMetadata);
 		System.out.println("音乐单所包含的音乐：" + musicSheetFileData);
 
-		/**
-		 * 将音乐单数据写入数据库
-		 */
+		// 将音乐单数据写入数据库
 		MusicSheetService musicSheetService = new MusicSheetService();
 
 		MusicSheet ms = new MusicSheet();
@@ -128,7 +121,6 @@ public class MusicSheetAndFileUploadServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 
-		Writer out = response.getWriter();
 		JSONObject jsonObject = new JSONObject();
 
 		if (token) {
@@ -138,10 +130,11 @@ public class MusicSheetAndFileUploadServlet extends HttpServlet {
 		} else {
 			jsonObject.put("message", "Upload musicsheet failed.");
 		}
+
+		Writer out = response.getWriter();
 		out.write(jsonObject.toString());
 		out.flush();
-
+		out.close();
 		// request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
-
 }

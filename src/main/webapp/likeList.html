@@ -32,12 +32,14 @@
 <body>
 <div role="main" class="container">
     <div id="app" class="mt-3" >
-
         <div class="jumbotron">
-            <img src="./pic/avatar.png" alt="" height="100" width="100">
-            <h2 class="display-4">Soundwave</h2>
-            <p class="lead">同学，回家听歌了... 顺便写写代码。</p>
+            <div>
+                <img src="./pic/avatar.png" alt="" height="100" width="100" align="absmiddle" style="margin-right: 20px">
+                <span class="lead" style="font-size: 20px">用户：一只小码农</span>
+
+            </div>
             <hr class="my-4">
+            <p class="lead" style="margin-top: 15px">Hi，来看看哪些歌是你的最爱</p>
         </div>
         <div class="my-3 p-3 bg-white rounded shadow-sm" v-for="musicsheet in musicsheets">
             <table class="table table-sm">
