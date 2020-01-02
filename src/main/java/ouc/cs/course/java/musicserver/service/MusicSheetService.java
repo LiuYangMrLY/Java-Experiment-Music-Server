@@ -121,7 +121,16 @@ public class MusicSheetService {
 		return mslist;
 	}
 	
-	
+	public MusicSheet getMusicByUuid(String uuid) {
+		MusicSheet musicSheet = null;
+		try {
+			musicSheet = musicSheetDao.findByUuid(uuid);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return musicSheet;
+	}
 
 	public String getMusicSheetPictureUrl(String uuid) throws SQLException {
 		MusicSheet musicSheet = musicSheetDao.findByUuid(uuid);

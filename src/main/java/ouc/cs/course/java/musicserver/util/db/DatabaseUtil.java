@@ -41,6 +41,7 @@ public class DatabaseUtil {
 		MusicSheetToMusicDaoImpl.makePreparations();
 		MusicSheetDaoImpl.makePreparations();
 		LikedMusicDaoImpl.makePreparations();
+		CommentDaoImpl.makePreparations();
 	}
 
 	/**
