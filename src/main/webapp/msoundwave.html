@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <style type="text/css">
+        .top{
+            /* 设置宽度高度背景颜色 */
+            height: auto; /*高度改为自动高度*/
+            width:100%;
+            margin-left: 0;
+            background:rgb(189, 181, 181);
+            position: fixed; /*固定在顶部*/
+            top: 0;/*离顶部的距离为0*/
+            margin-bottom: 5px;
+        }
+        .top ul{
+            /* 清除ul标签的默认样式 */
+            width: auto;/*宽度也改为自动*/
+            list-style-type: none;
+            white-space:nowrap;
+            overflow: hidden;
+            margin-left: 5%;
+            /* margin-top: 0;          */
+            padding: 0;
+
+        }
+        .top li {
+            float:left; /* 使li内容横向浮动，即横向排列  */
+            margin-right:2%;  /* 两个li之间的距离*/
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top li a{
+            /* 设置链接内容显示的格式*/
+            display: block; /* 把链接显示为块元素可使整个链接区域可点击 */
+            color:white;
+            text-align: center;
+            padding: 3px;
+            overflow: hidden;
+            text-decoration: none; /* 去除下划线 */
+
+        }
+        .top li a:hover{
+            /* 鼠标选中时背景变为黑色 */
+            background-color: #111;
+        }
+        .top ul li ul{
+            /* 设置二级菜单 */
+            margin-left: -0.2px;
+            background:rgb(189, 181, 181);
+            position: relative;
+            display: none; /* 默认隐藏二级菜单的内容 */
+
+        }
+        .top ul li ul li{
+            /* 二级菜单li内容的显示 */
+
+            float:none;
+            text-align: center;
+        }
+        .top ul li:hover ul{
+            /* 鼠标选中二级菜单内容时 */
+            display: block;
+        }
+        body{
+            background:#eff3f5;
+        }
+
+    </style>
+<body>
+<div class="top">
+    <center>
+        <ul>
+            <li><a href="#">一级菜单</a></li>
+            <li><a href="#">一级菜单</a></li>
+            <li><a href="#">一级菜单</a></li>
+            <li><a href="#"><b>一级菜单</b></a></li>
+            <li><a href="#">一级菜单</a></li>
+            <li>
+                <a href="#">一级菜单</a>
+                <ul>
+                    <li><a href="#">二级菜单</a></li>
+                    <li><a href="#">二级菜单</a></li>
+                </ul>
+            </li>
+        </ul>
+    </center>
+</div>
+</body>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+    <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+    <title>Soundwave</title>
+</head>
+<body class="bg-light">
+<div role="main" class="container">
+    <div id="app" class="mt-3">
+        <div class="jumbotron">
+            <h2 class="display-4">Soundwave</h2>
+            <p class="lead">同学，回家听歌了... 顺便写写代码。</p>
+            <hr class="my-4">
+            <audio id="musicplayer" controls>
+                <source id="musicsource"
+                        src="http://service.uspacex.com/music.server/music?md5=77008b41f4c692808ac7b414722269e0"
+                        type="audio/mpeg"></source>
+            </audio>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <tb>
+                        歌单
+                    </tb>
+                    <tb>
+                        我喜欢
+                    </tb>
+                    <tb>
+                        创建歌单
+                    </tb>
+                    <tb>
+                        播放排名
+                    </tb>
+                </tr>
+            </table>
+        </div>
+        <div class="my-3 p-3 bg-white rounded shadow-sm"
+             v-for="musicsheet in musicsheets">
+            <h4 class="border-bottom border-gray pb-2 mb-1">{{musicsheet.name}}</h4>
+            <p
+                    class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">Creator:
+                    {{musicsheet.creator}}</strong> <strong class="d-block text-gray-dark">Date
+                created: {{musicsheet.dateCreated}}</strong>
+            </p>
+
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>MD5</th>
+                    <th>Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="name, md5 in musicsheet.musicItems">
+                    <td>{{name}}</td>
+                    <td>{{md5}}</td>
+                    <td><button type="button" class="btn btn-info btn-sm"
+                                v-on:click="loadAndPlay(name, md5)">PLAY</button>
+                        <img
+                                id="btn_like"
+                                src="./pic/like.png"
+                                v-on:click="setPic()"
+                                alt=""
+                                height="23"
+                                width="23"
+                                hspace="5"
+                                style="CURSOR: hand"
+                        >
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    new Vue({
+        el: '#app',
+        data () {
+            return {
+                musicsheets: null,
+            }
+        },
+        mounted () {
+            axios.get('http://service.uspacex.com/music.server/queryMusicSheets?type=top20')
+                .then(response => (this.musicsheets = response.data.musicSheetList))
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+        methods: {
+            loadAndPlay: function (name, md5) {
+                console.log("Load and Play." + name + "(" + md5 + ")");
+                document.getElementById('musicsource').src = 'http://service.uspacex.com/music.server/music?md5=' + md5;
+                document.getElementById('musicplayer').load();
+                document.getElementById('musicplayer').play();
+            }
+
+        }
+    })
+
+    function loadAndPlay(src) {
+
+    }
+    function setPic() {
+        if (document.getElementById("btn_like").getAttribute('src').match("./pic/like.png"))
+            document.getElementById("btn_like").src = "./pic/dislike.png";
+        else document.getElementById("btn_like").src = "./pic/like.png";
+    }
+</script>
+</body>
+</html>

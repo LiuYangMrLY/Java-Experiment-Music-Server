@@ -1,0 +1,284 @@
+/**
+ * @author Jannchie
+ * @email jannchie@gmail.com
+ * @create date 2018-05-03 08:44:46
+ * @modify date 2019-04-15 15:43:32
+*/
+.top{
+    /* 设置宽度高度背景颜色 */
+    height: 60px; /*高度改为自动高度*/
+    width:100%;
+    margin-left: 0;
+    background:rgb(23,162,184);
+    position: relative; /*固定在顶部*/
+    top: 0;/*离顶部的距离为0*/
+    margin-bottom: 5px;
+}
+.top ul{
+    /* 清除ul标签的默认样式 */
+    width: auto;/*宽度也改为自动*/
+    list-style-type: none;
+    white-space:nowrap;
+    overflow: hidden;
+    margin-left: 5%;
+    /*margin-top: 10px;*/
+    word-spacing: 2px;
+    padding: 0;
+
+}
+.top li {
+    margin-top: 10px;
+    float:left; /* 使li内容横向浮动，即横向排列  */
+    margin-right:2%;  /* 两个li之间的距离*/
+    position: relative;
+    overflow: hidden;
+}
+
+.top li a{
+    /* 设置链接内容显示的格式*/
+    display: block; /* 把链接显示为块元素可使整个链接区域可点击 */
+    color:white;
+    text-align: center;
+    padding: 3px;
+    font-size: 21px;
+    overflow: hidden;
+    text-decoration: none; /* 去除下划线 */
+
+}
+.top li a:hover{
+    /* 鼠标选中时背景变为黑色 */
+    background: rgb(23,162,184);
+}
+.top ul li ul{
+    /* 设置二级菜单 */
+    margin-left: -0.2px;
+    background:rgb(189, 181, 181);
+    position: relative;
+    display: none; /* 默认隐藏二级菜单的内容 */
+
+}
+.top ul li ul li{
+    /* 二级菜单li内容的显示 */
+
+    float:none;
+    text-align: center;
+}
+.top ul li:hover ul{
+    /* 鼠标选中二级菜单内容时 */
+    display: block;
+}
+.footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 50px;
+    background-color: #eee;
+    z-index: 9999;
+}
+body {
+    margin: 0px;
+}
+
+input {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+}
+
+.domain {
+    display: none;
+}
+
+.tick line {
+    stroke: #C0C0BB;/* 刻度线 */
+}
+
+.tick text {
+    fill: #8E8883;
+    font-size: 12px;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.label {
+    fill: #5C5C5C;
+    font-size: 15px;
+    font-family: "Fira Code", "Source Han Sans CN";
+}
+
+.dateLabel {
+
+    fill: #5C5C5C;
+    display: table-cell;
+    font-size: 60px;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.dateLabelRed {
+
+    fill: #A72E2E;
+    display: table-cell;
+    font-size: 90px;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+
+.days {
+    fill: #5C5C5C;
+    font-size: 55px;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.topLabel {
+    fill: #5C5C5C;
+    font-size: 40px;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.value {
+    fill: #8A2E2E;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.barInfo {
+    fill: #FFFFFF;
+    font-weight: 800;
+    font-size: 24px;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.axis-label {
+    fill: #635F5D;
+    font-size: 32px;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.days {
+    fill: #5C5C5C;
+    font-size: 40px;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.dayslabel {
+    fill: #5C5C5C;
+    font-size: 25px;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.growth {
+    fill: #5C5C5C;
+    font-size: 40px;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+/* MIKU色 */
+.L {
+    fill: #39C5BB;
+}
+
+/* 龙牙绿 */
+.M {
+    fill: #006666
+}
+
+.L {
+    fill: #66CCFF
+}
+
+.N {
+    fill: #EB0000
+}
+
+.O {
+    fill: #009714
+}
+
+.P {
+    fill: #B11111
+}
+
+.Q {
+    fill: #E24000
+}
+
+.R {
+    fill: #8605D1
+}
+
+.S {
+    fill: #00A5BB
+}
+
+.T {
+    fill: #C21178
+}
+
+.U {
+    fill: #00A048
+}
+
+.W {
+    fill: #FFC012
+}
+
+.V {
+    fill: #F39303
+}
+
+.X {
+    fill: #933DDA
+}
+
+.Y {
+    fill: #EE5677
+}
+
+.Z {
+    fill: #C0620B
+}
+
+.H {
+    fill: #787878
+}
+
+.G {
+    fill: #CB1B45
+}
+
+.K {
+    fill: #0775BE
+}
+
+.J {
+    fill: #B49D33
+}
+
+.I {
+    fill: #1B813E
+}
+
+.F {
+    fill: #DD3287
+}
+
+.E {
+    fill: #00AF89
+}
+
+.D {
+    fill: #0F2540
+}
+
+.C {
+    fill: #2EA9DF
+}
+
+.B {
+    fill: #0A83E6
+}
+
+.A {
+    fill: #CF9237
+}
