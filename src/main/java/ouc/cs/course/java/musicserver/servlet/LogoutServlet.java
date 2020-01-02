@@ -1,15 +1,11 @@
 package ouc.cs.course.java.musicserver.servlet;
 
-import ouc.cs.course.java.musicserver.service.UserService;
-import ouc.cs.course.java.musicserver.util.md5.MD5Util;
-
-import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
