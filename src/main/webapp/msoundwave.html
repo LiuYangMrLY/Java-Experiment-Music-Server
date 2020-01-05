@@ -170,7 +170,29 @@
         </div>
     </div>
 </div>
-
+<div class="footer">
+    <aside class="smusic-aside">
+        <div class="smusic-ctrl smusic-ctrl--left">
+            <div class="smusic-ctrl--volume">
+                <a class="smusic-volume--toggle js-smusic-btn--volume" title="静音"></a>
+                <div class="smusic-volume--bar js-smusic-volume--bar">
+                    <span class="smusic-volume--value js-smusic-volume--value" style="height: 50px;"></span>
+                    <span class="smusic-volume--slider js-smusic-volume--slider" style="top: 50px;"></span>
+                </div>
+            </div>
+            <a class="smusic-ctrl--mode smusic-mode--loop js-smusic-btn--mode" data-play-mode="1" title="列表循环"></a>
+        </div>
+        <div class="smusic-progress js-smusic-progress">
+            <span class="smusic-progress--buffer js-smusic-progress--buffer" style="width: 7.32222px;"></span>
+            <span class="smusic-progress--value js-smusic-progress--value" style="width: 0px;"><i class="smusic-progress--slider js-smusic-progress--slider"></i></span>
+        </div>
+        <div class="smusic-ctrl smusic-ctrl--right">
+            <time class="smusic-time js-smusic-time">00:00/01:51</time>
+            <a class="smusic-ctrl--lyric js-smusic-btn--lyric js-smusic-panel--tab " data-panel="lyric" title="歌词"><i class="smusic-ico-lyric"></i></a>
+            <a class="smusic-ctrl--list js-smusic-btn--list js-smusic-panel--tab active" data-panel="list" title="列表"><i class="smusic-ico-list"></i></a>
+        </div>
+    </aside>
+</div>
 <script type="text/javascript">
     new Vue({
         el: '#app',

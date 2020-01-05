@@ -12,7 +12,7 @@
   max_number: 20,
 
   // 控制是否显示顶部附加信息文字。
-  showMessage: true,
+  showMessage: false,
 
   // 时间自动排序。
   // !!!请确保打开此项时，使用的是标准日期格式！(即：YYYY-MM-DD HH:MM)
@@ -49,15 +49,15 @@
   // 如果该项为true，那么按照src/color_ranges.js中的color_ranges变色，默认色板为color_range
   // 一个具体的设置模板见src/_color_ranges.js，将其更名为color_ranges.js再设置即可
   divide_changeable_color_by_type: true,
-  color_range: ['#ff7e5f', '#feb47b'],
+  color_range: ['#17A2B8', '#17A2B8'],
 
 
   // 附加信息内容。
   // left label
-  itemLabel: "左侧文字",
+  itemLabel: "",
 
   // right label
-  typeLabel: "右侧文字",
+  typeLabel: "",
 
 
   // 榜首项目信息的水平位置 。
@@ -165,7 +165,7 @@
   rounded_rectangle: true,
 
   // 是否显示x轴轴线
-  show_x_tick: true,
+  show_x_tick: false,
 
   // 限制bar info 展示的长度
   // limit bar info display length

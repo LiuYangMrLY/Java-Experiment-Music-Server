@@ -1,6 +1,6 @@
 .top{
     /* 设置宽度高度背景颜色 */
-    height: 60px; /*高度改为自动高度*/
+    height: 70px; /*高度改为自动高度*/
     width:100%;
     margin-left: 0;
     background:rgb(23,162,184);
@@ -14,16 +14,16 @@
     list-style-type: none;
     white-space:nowrap;
     overflow: hidden;
-    margin-left: 5%;
+    /*margin-left: 5%;*/
     /*margin-top: 10px;*/
     word-spacing: 2px;
     padding: 0;
 
 }
 .top li {
-    margin-top: 10px;
+    margin-top: 12px;
     float:left; /* 使li内容横向浮动，即横向排列  */
-    margin-right:2%;  /* 两个li之间的距离*/
+    /*margin-right:2%;  /* 两个li之间的距离*/
     position: relative;
     overflow: hidden;
 }
@@ -34,7 +34,7 @@
     color:white;
     text-align: center;
     padding: 3px;
-    font-size: 21px;
+    font-size: 22px;
     overflow: hidden;
     text-decoration: none; /* 去除下划线 */
 
